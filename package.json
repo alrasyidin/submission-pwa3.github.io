@@ -1,0 +1,32 @@
+{
+  "name": "pwa-submission3",
+  "version": "1.0.0",
+  "description": "PWA submission bagian ke 3",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/*.html src/pages/*.html --port 1115",
+    "build": "parcel build src/*.html src/pages/*.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-clean-dist": "0.0.6",
+    "parcel-plugin-sw-asset-urls": "^0.1.2",
+    "web-push": "^3.4.4"
+  },
+  "dependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "api": "^2.1.1",
+    "controllers": "0.0.2",
+    "css.gg": "^2.0.0",
+    "date-and-time": "^0.13.1",
+    "idb": "^2.0.1",
+    "materialize-css": "^1.0.0-rc.2",
+    "notyf": "^3.7.0",
+    "regenerator-runtime": "^0.13.5",
+    "style": "0.0.3"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Football PWA",
+  "short_name": "FPWA",
+  "description": "Football pwa application",
+  "gcm_sender_id": "179401483617",
+  "icons": [
+    {
+      "src": "public/football-1.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "public/football-2.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "public/football-3.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#388e3c",
+  "background_color": "#388e3c"
+}
