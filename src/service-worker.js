@@ -35,6 +35,11 @@ if (workbox) {
       cacheName: 'pages'
     })
   )
+
+  workbox.routing.registerRoute(
+    new RegExp('https://api.football-data.org/v2/'),
+    workbox.strategies.staleWhileRevalidate()
+  )
 } else {
   console.log(`gagal import workbox`)
 }

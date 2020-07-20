@@ -19,7 +19,7 @@ export default class DBController {
           let store = tx.objectStore(objectStore)
 
           console.log(data)
-          store.add(data)
+          store.put(data)
           return resolve(tx.complete)
         })
         .catch(error => reject(error))

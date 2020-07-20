@@ -34,7 +34,7 @@ export default class AppController {
 
   loadNav() {
     let activeLink = []
-    ajax('nav.html')
+    ajax('./nav.html')
       .then(menu => {
         this.UI.getSelector.sideAndTops.forEach(element => {
           element.innerHTML = menu
@@ -85,7 +85,7 @@ export default class AppController {
   }
 
   loadPage(url) {
-    ajax(`pages/${url}.html`)
+    ajax(`./pages/${url}.html`)
       .then(page => {
         this.UI.getSelector.content.innerHTML = page
 

@@ -12,10 +12,10 @@ webPush.setVapidDetails(
   vapidKeys.privateKey
 )
 var pushSubscription = {
-  "endpoint": "https://sg2p.notify.windows.com/w/?token=BQYAAADLS5iazYqn%2btkOExPBicw2LapS5SrDBf%2f03bwuq0sf%2fRr5cBrcV5D7OFoCtl%2bx4HYG1D9SKStfZ02NGaQCzNnFCiR6LgULUzp8L5hvAifmKQ6hfptrFaHE7DOhPAvFOe52H3VFEueZMUz5XzkZ00tSotrs4VGMf2TDdKLJ%2bLwCDRZYwWizjd3ILVRIJ8MqhTvmqH%2bIjRXljzca2ilMnrJY%2fEVrhz0ANCfASyILDjqV7Pgjj0J77b9ka27MnNFwMji2ZHBSBUyBzrHrOi49LNFNHEuY2iXaM9SiYwZry7oVaimIRW9yKR1aQzKk5BKaCns%3d",
+  "endpoint": "https://sg2p.notify.windows.com/w/?token=BQYAAADUN9AOoOvIXULvBY4mGcWeBq569BqECY3o8wc4hVEk3s%2bxTNm1heHh%2b14X9lrlPdVriTpGYz9RIyD8fyF8dZVTTS0CH34WH0%2bligtB7BzeXMY0783eGOCllAbIH%2fIVyUAQr8llodN7%2fMp%2fFLqX%2fArIzX%2b1vN9DFEu%2fzwd5bJqE5nI%2btcceOOOTamNziDJR2sfGXGKfGtEnVHk1Ye6nYcz3rLy%2fIDsGhdFWR5DXXP1DwjhPBS60OujiJH4%2bpBBEL8RLxcckjZqrp1Zag%2btDvUjmdIyaqx05ML9uXJAJh%2fsPOIwboIHvzAj5kbo2BL6YMuvrhv4DbwNsaYAzC31oJl3l",
   "keys": {
-    "p256dh": "BAFxFXRM8Ijm45dobS9i1ULfR7QUNd7WHxEaUe1R0Dbw20LWFrb1WHm0gXzgK1eR2+xll7WZq9rZad3Hxxr+tFk=",
-    "auth": "sukhE+9Yn0koNfEBAVPhCg=="
+    "p256dh": "BBNHcVjnGsdhvdv8vnxnL7uk4gThxiwtV0T/WARtRg+PgDqjxvZsd5LTehhe4ANZ8rXH9a/u4BTO3l4Iw7oWhvY=",
+    "auth": "gIhLeLjE/7ucfit7qWDQmQ=="
   }
 }
 

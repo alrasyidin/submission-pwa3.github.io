@@ -15066,7 +15066,7 @@ var DBController = /*#__PURE__*/function () {
           var tx = db.transaction(objectStore, 'readwrite');
           var store = tx.objectStore(objectStore);
           console.log(data);
-          store.add(data);
+          store.put(data);
           return resolve(tx.complete);
         }).catch(function (error) {
           return reject(error);
@@ -15191,7 +15191,7 @@ var AppController = /*#__PURE__*/function () {
       var _this = this;
 
       var activeLink = [];
-      (0, _api.ajax)('nav.html').then(function (menu) {
+      (0, _api.ajax)('./nav.html').then(function (menu) {
         _this.UI.getSelector.sideAndTops.forEach(function (element) {
           element.innerHTML = menu;
         });
@@ -15239,7 +15239,7 @@ var AppController = /*#__PURE__*/function () {
     value: function loadPage(url) {
       var _this2 = this;
 
-      (0, _api.ajax)("pages/".concat(url, ".html")).then(function (page) {
+      (0, _api.ajax)("./pages/".concat(url, ".html")).then(function (page) {
         _this2.UI.getSelector.content.innerHTML = page;
 
         if (url === 'home') {
@@ -15486,7 +15486,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56885" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53817" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
