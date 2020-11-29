@@ -118,6 +118,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"../node_modules/regenerator-runtime/runtime.js":[function(require,module,exports) {
+var define;
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -135,6 +136,24 @@ var runtime = (function (exports) {
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
 
   function wrap(innerFn, outerFn, self, tryLocsList) {
     // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
@@ -206,16 +225,19 @@ var runtime = (function (exports) {
     Generator.prototype = Object.create(IteratorPrototype);
   GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
   GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
 
   // Helper for defining the .next, .throw, and .return methods of the
   // Iterator interface in terms of a single ._invoke method.
   function defineIteratorMethods(prototype) {
     ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
+      define(prototype, method, function(arg) {
         return this._invoke(method, arg);
-      };
+      });
     });
   }
 
@@ -234,9 +256,7 @@ var runtime = (function (exports) {
       Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
     } else {
       genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
     }
     genFun.prototype = Object.create(Gp);
     return genFun;
@@ -506,7 +526,7 @@ var runtime = (function (exports) {
   // unified ._invoke helper method.
   defineIteratorMethods(Gp);
 
-  Gp[toStringTagSymbol] = "Generator";
+  define(Gp, toStringTagSymbol, "Generator");
 
   // A Generator should always return itself as the iterator object when the
   // @@iterator function is called on it. Some browsers' implementations of the
@@ -852,7 +872,7 @@ try {
 var define;
 var global = arguments[3];
 /*!
- * Materialize v1.0.0-rc.2 (http://materializecss.com)
+ * Materialize v1.0.0 (http://materializecss.com)
  * Copyright 2014-2017 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
@@ -1936,6 +1956,8 @@ if (typeof define === 'function' && define.amd) {
   }
   exports.default = M;
 }
+
+M.version = '1.0.0';
 
 M.keys = {
   TAB: 9,
@@ -3360,7 +3382,11 @@ $jscomp.polyfill = function (e, r, p, m) {
           var $activatableElement = $(focusedElement).find('a, button').first();
 
           // Click a or button tag if exists, otherwise click li tag
-          !!$activatableElement.length ? $activatableElement[0].click() : focusedElement.click();
+          if (!!$activatableElement.length) {
+            $activatableElement[0].click();
+          } else if (!!focusedElement) {
+            focusedElement.click();
+          }
 
           // Close dropdown on ESC
         } else if (e.which === M.keys.ESC && this.isOpen) {
@@ -3540,8 +3566,7 @@ $jscomp.polyfill = function (e, r, p, m) {
 
             // onOpenEnd callback
             if (typeof _this11.options.onOpenEnd === 'function') {
-              var elem = anim.animatables[0].target;
-              _this11.options.onOpenEnd.call(elem, _this11.el);
+              _this11.options.onOpenEnd.call(_this11, _this11.el);
             }
           }
         });
@@ -3572,7 +3597,6 @@ $jscomp.polyfill = function (e, r, p, m) {
 
             // onCloseEnd callback
             if (typeof _this12.options.onCloseEnd === 'function') {
-              var elem = anim.animatables[0].target;
               _this12.options.onCloseEnd.call(_this12, _this12.el);
             }
           }
@@ -3702,7 +3726,7 @@ $jscomp.polyfill = function (e, r, p, m) {
 
   Dropdown._dropdowns = [];
 
-  window.M.Dropdown = Dropdown;
+  M.Dropdown = Dropdown;
 
   if (M.jQueryLoaded) {
     M.initializeJqueryWrapper(Dropdown, 'dropdown', 'M_Dropdown');
@@ -5273,7 +5297,7 @@ $jscomp.polyfill = function (e, r, p, m) {
     return Tabs;
   }(Component);
 
-  window.M.Tabs = Tabs;
+  M.Tabs = Tabs;
 
   if (M.jQueryLoaded) {
     M.initializeJqueryWrapper(Tabs, 'tabs', 'M_Tabs');
@@ -6943,7 +6967,7 @@ $jscomp.polyfill = function (e, r, p, m) {
 
   Sidenav._sidenavs = [];
 
-  window.M.Sidenav = Sidenav;
+  M.Sidenav = Sidenav;
 
   if (M.jQueryLoaded) {
     M.initializeJqueryWrapper(Sidenav, 'sidenav', 'M_Sidenav');
@@ -12686,10 +12710,20 @@ $jscomp.polyfill = function (e, r, p, m) {
           // Add callback for centering selected option when dropdown content is scrollable
           dropdownOptions.onOpenEnd = function (el) {
             var selectedOption = $(_this71.dropdownOptions).find('.selected').first();
-            if (_this71.dropdown.isScrollable && selectedOption.length) {
-              var scrollOffset = selectedOption[0].getBoundingClientRect().top - _this71.dropdownOptions.getBoundingClientRect().top; // scroll to selected option
-              scrollOffset -= _this71.dropdownOptions.clientHeight / 2; // center in dropdown
-              _this71.dropdownOptions.scrollTop = scrollOffset;
+
+            if (selectedOption.length) {
+              // Focus selected option in dropdown
+              M.keyDown = true;
+              _this71.dropdown.focusedIndex = selectedOption.index();
+              _this71.dropdown._focusFocusedItem();
+              M.keyDown = false;
+
+              // Handle scrolling to selected option
+              if (_this71.dropdown.isScrollable) {
+                var scrollOffset = selectedOption[0].getBoundingClientRect().top - _this71.dropdownOptions.getBoundingClientRect().top; // scroll to selected option
+                scrollOffset -= _this71.dropdownOptions.clientHeight / 2; // center in dropdown
+                _this71.dropdownOptions.scrollTop = scrollOffset;
+              }
             }
           };
 
@@ -14012,18 +14046,18 @@ Object.defineProperty(exports, "__esModule", {
 exports.NotyfView = exports.NotyfNotification = exports.NotyfEvent = exports.NotyfArrayEvent = exports.NotyfArray = exports.Notyf = exports.DEFAULT_OPTIONS = void 0;
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 var __assign = function () {
   __assign = Object.assign || function __assign(t) {
@@ -14044,7 +14078,25 @@ var NotyfNotification =
 function () {
   function NotyfNotification(options) {
     this.options = options;
+    this.listeners = {};
   }
+
+  NotyfNotification.prototype.on = function (eventType, cb) {
+    var callbacks = this.listeners[eventType] || [];
+    this.listeners[eventType] = callbacks.concat([cb]);
+  };
+
+  NotyfNotification.prototype.triggerEvent = function (eventType, event) {
+    var _this = this;
+
+    var callbacks = this.listeners[eventType] || [];
+    callbacks.forEach(function (cb) {
+      return cb({
+        target: _this,
+        event: event
+      });
+    });
+  };
 
   return NotyfNotification;
 }();
@@ -14092,7 +14144,8 @@ var NotyfEvent;
 exports.NotyfEvent = NotyfEvent;
 
 (function (NotyfEvent) {
-  NotyfEvent[NotyfEvent["Dismiss"] = 0] = "Dismiss";
+  NotyfEvent["Dismiss"] = "dismiss";
+  NotyfEvent["Click"] = "click";
 })(NotyfEvent || (exports.NotyfEvent = NotyfEvent = {}));
 
 var DEFAULT_OPTIONS = {
@@ -14128,6 +14181,7 @@ var NotyfView =
 function () {
   function NotyfView() {
     this.notifications = [];
+    this.events = {};
     this.X_POSITION_FLEX_MAP = {
       left: 'flex-start',
       center: 'center',
@@ -14258,6 +14312,8 @@ function () {
   NotyfView.prototype._buildNotificationCard = function (notification) {
     var _this = this;
 
+    var _a;
+
     var options = notification.options;
     var iconOpts = options.icon; // Adjust container according to position (e.g. top-left, bottom-center, etc)
 
@@ -14298,8 +14354,10 @@ function () {
         text: iconOpts.text
       });
 
-      if (color) {
-        icon.style.color = color;
+      var iconColor = (_a = iconOpts.color) !== null && _a !== void 0 ? _a : color;
+
+      if (iconColor) {
+        icon.style.color = iconColor;
       }
 
       iconContainer.appendChild(icon);
@@ -14333,13 +14391,25 @@ function () {
       dismissWrapper.appendChild(dismissButton);
       wrapper.appendChild(dismissWrapper);
       notificationElem.classList.add("notyf__toast--dismissible");
-      dismissButton.addEventListener('click', function () {
-        var _a;
+      dismissButton.addEventListener('click', function (event) {
+        var _a, _b;
 
-        return (_a = _this.events) === null || _a === void 0 ? void 0 : _a[NotyfEvent.Dismiss](notification);
+        (_b = (_a = _this.events)[NotyfEvent.Dismiss]) === null || _b === void 0 ? void 0 : _b.call(_a, {
+          target: notification,
+          event: event
+        });
+        event.stopPropagation();
       });
-    } // Adjust margins depending on whether its an upper or lower notification
+    }
 
+    notificationElem.addEventListener('click', function (event) {
+      var _a, _b;
+
+      return (_b = (_a = _this.events)[NotyfEvent.Click]) === null || _b === void 0 ? void 0 : _b.call(_a, {
+        target: notification,
+        event: event
+      });
+    }); // Adjust margins depending on whether its an upper or lower notification
 
     var className = this.getYPosition(options) === 'top' ? 'upper' : 'lower';
     notificationElem.classList.add("notyf__toast--" + className);
@@ -14455,8 +14525,20 @@ function () {
     this.notifications.onUpdate(function (elem, type) {
       return _this.view.update(elem, type);
     });
-    this.view.on(NotyfEvent.Dismiss, function (elem) {
-      return _this._removeNotification(elem);
+    this.view.on(NotyfEvent.Dismiss, function (_a) {
+      var target = _a.target,
+          event = _a.event;
+
+      _this._removeNotification(target); // tslint:disable-next-line: no-string-literal
+
+
+      target['triggerEvent'](NotyfEvent.Dismiss, event);
+    }); // tslint:disable-next-line: no-string-literal
+
+    this.view.on(NotyfEvent.Click, function (_a) {
+      var target = _a.target,
+          event = _a.event;
+      return target['triggerEvent'](NotyfEvent.Click, event);
     });
   }
 
@@ -14958,6 +15040,9 @@ exports.default = UIController;
   // TODO: remove this once browsers do the right thing with promises
   ['openCursor', 'openKeyCursor'].forEach(function(funcName) {
     [ObjectStore, Index].forEach(function(Constructor) {
+      // Don't create iterateKeyCursor if openKeyCursor doesn't exist.
+      if (!(funcName in Constructor.prototype)) return;
+
       Constructor.prototype[funcName.replace('open', 'iterate')] = function() {
         var args = toArray(arguments);
         var callback = args[args.length - 1];
@@ -15000,11 +15085,13 @@ exports.default = UIController;
       var p = promisifyRequestCall(indexedDB, 'open', [name, version]);
       var request = p.request;
 
-      request.onupgradeneeded = function(event) {
-        if (upgradeCallback) {
-          upgradeCallback(new UpgradeDB(request.result, event.oldVersion, request.transaction));
-        }
-      };
+      if (request) {
+        request.onupgradeneeded = function(event) {
+          if (upgradeCallback) {
+            upgradeCallback(new UpgradeDB(request.result, event.oldVersion, request.transaction));
+          }
+        };
+      }
 
       return p.then(function(db) {
         return new DB(db);
@@ -15065,7 +15152,6 @@ var DBController = /*#__PURE__*/function () {
         _this.db.then(function (db) {
           var tx = db.transaction(objectStore, 'readwrite');
           var store = tx.objectStore(objectStore);
-          console.log(data);
           store.put(data);
           return resolve(tx.complete);
         }).catch(function (error) {
@@ -15318,10 +15404,14 @@ var AppController = /*#__PURE__*/function () {
       var isFromSaved = urlParams.get('saved');
       var save = this.UI.select('#floatButton');
       var id = parseInt(urlParams.get('id'));
+      this.db.getDataById(id, 'teams').then(function (team) {
+        if (team) {
+          save.style.display = 'none';
+        }
+      });
 
       if (isFromSaved) {
-        save.style.display = 'none'; // showing loading indicator progress
-
+        // showing loading indicator progress
         (0, _helper.showLoading)();
         this.db.getDataById(id, 'teams').then(function (team) {
           (0, _helper.showLoading)(team); // inject data pemain
@@ -15458,7 +15548,7 @@ if ('Notification' in window) {
     }
   });
 }
-},{"regenerator-runtime":"../node_modules/regenerator-runtime/runtime.js","materialize-css/dist/js/materialize.js":"../node_modules/materialize-css/dist/js/materialize.js","./style/index.css":"style/index.css","./helper":"helper.js","./controllers/AppCtrl":"controllers/AppCtrl.js","./service-worker.js":[["service-worker.js","service-worker.js"],"service-worker.js.map","service-worker.js"]}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"regenerator-runtime":"../node_modules/regenerator-runtime/runtime.js","materialize-css/dist/js/materialize.js":"../node_modules/materialize-css/dist/js/materialize.js","./style/index.css":"style/index.css","./helper":"helper.js","./controllers/AppCtrl":"controllers/AppCtrl.js","./service-worker.js":[["service-worker.js","service-worker.js"],"service-worker.js.map","service-worker.js"]}],"../../../../Users/hamstergeek/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -15486,7 +15576,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53817" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53921" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -15662,5 +15752,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../../../../Users/hamstergeek/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/src.e31bb0bc.js.map

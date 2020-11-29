@@ -102,7 +102,6 @@ export default class AppController {
           }
 
         } else if (url === 'detail') {
-
           try {
             this.renderDataDetail()
           } catch (error) {
@@ -164,9 +163,15 @@ export default class AppController {
     const save = this.UI.select('#floatButton')
     const id = parseInt(urlParams.get('id'))
 
-    if (isFromSaved) {
-      save.style.display = 'none'
+    this.db
+      .getDataById(id, 'teams')
+      .then(team => {
+        if (team) {
+          save.style.display = 'none'
+        }
+      })
 
+    if (isFromSaved) {
       // showing loading indicator progress
       showLoading()
 

@@ -159,6 +159,7 @@ if (workbox) {
   workbox.routing.registerRoute(new RegExp('pages/'), workbox.strategies.staleWhileRevalidate({
     cacheName: 'pages'
   }));
+  workbox.routing.registerRoute(new RegExp('https://api.football-data.org/v2/'), workbox.strategies.staleWhileRevalidate());
 } else {
   console.log("gagal import workbox");
 }
@@ -183,7 +184,7 @@ self.addEventListener('push', function (event) {
   };
   event.waitUntil(self.registration.showNotification('Notifikasi Football PWA', options));
 });
-},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../../Users/hamstergeek/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -211,7 +212,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53817" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53921" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -387,5 +388,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","service-worker.js"], null)
+},{}]},{},["../../../../Users/hamstergeek/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","service-worker.js"], null)
 //# sourceMappingURL=/service-worker.js.map

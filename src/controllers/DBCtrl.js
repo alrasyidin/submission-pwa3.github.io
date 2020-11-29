@@ -18,7 +18,6 @@ export default class DBController {
           let tx = db.transaction(objectStore, 'readwrite')
           let store = tx.objectStore(objectStore)
 
-          console.log(data)
           store.put(data)
           return resolve(tx.complete)
         })

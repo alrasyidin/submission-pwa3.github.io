@@ -4,7 +4,7 @@
   "description": "PWA submission bagian ke 3",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel src/*.html src/pages/*.html --port 1115",
+    "dev": "parcel src/*.html src/pages/*.html",
     "build": "parcel build src/*.html src/pages/*.html"
   },
   "keywords": [],
