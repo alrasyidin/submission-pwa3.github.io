@@ -22,7 +22,7 @@
     "api": "^2.1.1",
     "controllers": "0.0.2",
     "css.gg": "^2.0.0",
-    "date-and-time": "^0.13.1",
+    "date-and-time": "^0.14.2",
     "idb": "^2.0.1",
     "materialize-css": "^1.0.0-rc.2",
     "notyf": "^3.7.0",
